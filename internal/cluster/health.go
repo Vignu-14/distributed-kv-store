@@ -22,3 +22,12 @@ func NewHealthChecker(selfId string, peers []*Peer) *HealthChecker{
 }
 
 
+func (hc *HealthChecker) Start(interval time.Duration){
+	ticker := time.NewTicker(interval)
+	go func(){
+		hc.checkAll()
+		for range ticker.C{
+			hc.checkAll()
+		}
+	}()
+}
