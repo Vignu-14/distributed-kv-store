@@ -26,6 +26,7 @@ func main() {
 
 	var peers []*cluster.Peer
 	for _, p := range cfg.Peers{
+		// skipping current node
 		if p.ID == *nodeID{
 			continue
 		}
