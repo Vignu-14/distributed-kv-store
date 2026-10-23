@@ -36,4 +36,8 @@ func (p *Peer) SetAlive(status bool) bool {
 	return changed
 }
 
-func
+func(p *Peer) IsAlive()bool{
+	p.mu.RLock()
+	defer p.mu.RUnlock()
+	return p.alive
+}
