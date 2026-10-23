@@ -6,7 +6,7 @@ import (
 )
 
 type Peer struct {
-	Id   string
+	ID  string
 	Addr string
 
 	mu       sync.RWMutex
@@ -16,7 +16,7 @@ type Peer struct {
 
 func NewPeer(id, addr string) *Peer {
 	return &Peer{
-		Id:    id,
+		ID:    id,
 		Addr:  addr,
 		alive: false,
 	}

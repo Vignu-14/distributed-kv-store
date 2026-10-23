@@ -41,14 +41,14 @@ func (hc *HealthChecker) checkAll() {
 				resp.Body.Close()
 			}
 			if peer.SetAlive(false) {
-				log.Printf("[%s] Peer %s (%s) is now DEAD", hc.selfID, peer.Id, peer.Addr)
+				log.Printf("[%s] Peer %s (%s) is now DEAD", hc.selfID, peer.ID, peer.Addr)
 			}
 			continue
 		}
 		resp.Body.Close()
 
 		if peer.SetAlive(true) {
-			log.Printf("[%s] Peer %s (%s) is now ALIVE", hc.selfID, peer.Id, peer.Addr)
+			log.Printf("[%s] Peer %s (%s) is now ALIVE", hc.selfID, peer.ID, peer.Addr)
 		}
 	}
 }
