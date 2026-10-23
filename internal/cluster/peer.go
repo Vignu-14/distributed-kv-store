@@ -14,14 +14,26 @@ type Peer struct {
 	lastSeen time.Time
 }
 
-func NewPeer(id, addr string) *Peer{
+func NewPeer(id, addr string) *Peer {
 	return &Peer{
-		Id: id,
-		Addr: addr,
+		Id:    id,
+		Addr:  addr,
 		alive: false,
 	}
 }
 
 // SetAlive updates the peer's status and returns true if the status changed
 // (e.g., went from DEAD -> ALIVE or ALIVE -> DEAD).
+func (p *Peer) SetAlive(status bool) bool {
+	p.mu.Lock()
+	defer p.mu.Unlock()
+
+	changed := p.alive != status
+	p.alive = status
+	if status {
+		p.lastSeen = time.Now()
+	}
+	return changed
+}
+
 func
