@@ -24,8 +24,8 @@ func NewServer(nodeId string, store *storage.Store) *Server{
 }
 
 func (s *Server) registerRoutes(){
-	s.mux.HandleFunc("kv", s.handleKV)
-	s.mux.HandleFunc("internal/health", s.handleHealth)
+	s.mux.HandleFunc("/kv", s.handleKV)
+	s.mux.HandleFunc("/internal/health", s.handleHealth)
 }
 
 func(s *Server) ServeHTTP(w  http.ResponseWriter, r *http.Request){
