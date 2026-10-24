@@ -24,6 +24,8 @@ func NewPeer(id, addr string) *Peer {
 
 // SetAlive updates the peer's status and returns true if the status changed
 // (e.g., went from DEAD -> ALIVE or ALIVE -> DEAD).
+
+// This funcion return true if the status of the Peer changes.
 func (p *Peer) SetAlive(status bool) bool {
 	p.mu.Lock()
 	defer p.mu.Unlock()

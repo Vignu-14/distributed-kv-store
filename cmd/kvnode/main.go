@@ -28,7 +28,7 @@ func main() {
 	for _, p := range cfg.Peers{
 		// skipping current node
 		if p.ID == *nodeID{
-			continue
+			continue	
 		}
 		peers = append(peers, cluster.NewPeer(p.ID, p.Addr))
 	}
