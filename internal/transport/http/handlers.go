@@ -69,3 +69,36 @@ func (s *Server) HandleKV(w http.ResponseWriter, r *http.Request) {
 }
 
 
+func (s *Server) handleReplicate(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		var req PutRequest
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil || req.Key == "" {
+			http.Error(w, "invalid replication payload", http.StatusBadRequest)
+			return
+		}
+		// Save ONLY to local store (do NOT re-replicate!)
+		s.node.Store.Put(req.Key, req.Value)
+		writeJSON(w, http.StatusOK, KVResponse{
+			NodeID: s.node.ID,
+			Key:    req.Key,
+			Status: "replicated",
+		})
+
+	case http.MethodDelete:
+		key := r.URL.Query().Get("key")
+		if key == "" {
+			http.Error(w, "missing ?key= query parameter", http.StatusBadRequest)
+			return
+		}
+		s.node.Store.Delete(key)
+		writeJSON(w, http.StatusOK, KVResponse{
+			NodeID: s.node.ID,
+			Key:    key,
+			Status: "replicated_delete",
+		})
+
+	default:
+		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+	}
+}
