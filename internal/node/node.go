@@ -24,3 +24,10 @@ func NewNode(id string, store *storage.Store, peers []*cluster.Peer) *Node {
 		},
 	}
 }
+
+
+func (n *Node) PutAndReplicate(key, value string) {
+	n.Store.Put(key, value)
+	n.replicatePutToPeers(key, value)
+}
+
