@@ -31,3 +31,7 @@ func (n *Node) PutAndReplicate(key, value string) {
 	n.replicatePutToPeers(key, value)
 }
 
+func (n *Node) DeleteAndReplicate(key string) {
+	n.Store.Delete(key)
+	n.replicateDeleteToPeers(key)
+}
