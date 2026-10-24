@@ -3,8 +3,6 @@ package main
 import (
 	"distributed-kv-store/internal/cluster"
 	"distributed-kv-store/internal/config"
-	"distributed-kv-store/internal/storage"
-	th "distributed-kv-store/internal/transport/http"
 	"flag"
 	"fmt"
 	"log"
@@ -25,10 +23,10 @@ func main() {
 	}
 
 	var peers []*cluster.Peer
-	for _, p := range cfg.Peers{
+	for _, p := range cfg.Peers {
 		// skipping current node
-		if p.ID == *nodeID{
-			continue	
+		if p.ID == *nodeID {
+			continue
 		}
 		peers = append(peers, cluster.NewPeer(p.ID, p.Addr))
 	}
@@ -37,8 +35,8 @@ func main() {
 	healthChecker.Start(time.Second * 3)
 
 	// storage and http server
-	store := storage.NewStore()
-	server := th.NewServer(*nodeID, store)
+	// store := storage.NewStore()
+	// server := th.NewServer(nodeID)
 
 	addr := fmt.Sprintf(":%d", *port)
 	log.Printf("[%s] Starting KV node on http://localhost%s", *nodeID, addr)

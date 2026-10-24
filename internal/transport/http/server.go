@@ -2,33 +2,30 @@ package http
 
 import (
 	"distributed-kv-store/internal/node"
-	"distributed-kv-store/internal/storage"
-	"encoding/json"
 	"net/http"
 )
 
-
-type Server struct{
+type Server struct {
 	node *node.Node
-	mux *http.ServeMux
+	mux  *http.ServeMux
 }
 
-func NewServer(n *node.Node) *Server{
+func NewServer(n *node.Node) *Server {
 	s := &Server{
 		node: n,
-		mux: http.NewServeMux(),
+		mux:  http.NewServeMux(),
 	}
 	s.registerRoutes()
 	return s
 }
 
-func (s *Server) registerRoutes(){
+func (s *Server) registerRoutes() {
 	s.mux.HandleFunc("/kv", s.handleKV)
 	s.mux.HandleFunc("/internal/replicate", s.handleReplicate)
 	s.mux.HandleFunc("/internal/health", s.handleHealth)
 }
 
-func(s *Server) ServeHTTP(w  http.ResponseWriter, r *http.Request){
+func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	s.mux.ServeHTTP(w, r)
 }
 
@@ -55,7 +52,7 @@ func(s *Server) ServeHTTP(w  http.ResponseWriter, r *http.Request){
 // 			Value: req.Value,
 // 			Status: "stored",
 // 		})
-	
+
 // 	case http.MethodGet:
 // 		key := r.URL.Query().Get("key")
 // 		if key == ""{

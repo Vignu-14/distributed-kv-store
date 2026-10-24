@@ -12,7 +12,7 @@ func (s *Server) handleHealth(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (s *Server) HandleKV(w http.ResponseWriter, r *http.Request) {
+func (s *Server) handleKV(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
 		var req PutRequest
@@ -67,7 +67,6 @@ func (s *Server) HandleKV(w http.ResponseWriter, r *http.Request) {
 
 	}
 }
-
 
 func (s *Server) handleReplicate(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
